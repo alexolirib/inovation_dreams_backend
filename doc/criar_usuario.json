@@ -3,7 +3,7 @@
   "username": "",
   "password": "",
   "email": "",
-  "perfil": "", // enum  1 - inventor, 2 - 3
+  "perfil": "", // enum  1 - inventor, 2 - investidor
   "nomeUsuario": "",
   "idade": 0,
   "foto": "nomeFoto",

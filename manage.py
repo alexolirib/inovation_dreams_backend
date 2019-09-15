@@ -4,6 +4,7 @@ import os
 import sys
 
 
+
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'innovation_dreams.settings')
     try:
@@ -15,6 +16,9 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+    if sys.argv[1] == 'migrate':
+        from innovation_dreams.config import create_data_default
+        create_data_default()
 
 
 if __name__ == '__main__':
