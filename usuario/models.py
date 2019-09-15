@@ -30,6 +30,10 @@ class Usuario(models.Model):
     nome_pai = models.CharField(max_length=180, null=True)
     cidade_nascimento = models.CharField(max_length=100)
     estado_nascimento = models.CharField(max_length=100)
+    cadastro_finalizado = models.BooleanField(default=False)
+
+
+    def criar_usuario(selfs, data):
 
     def __str__(self):
         return self.nome

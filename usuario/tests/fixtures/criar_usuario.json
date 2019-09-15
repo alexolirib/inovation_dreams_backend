@@ -1,0 +1,82 @@
+{
+  "username": "alexolirib",
+  "password": "123456",
+  "nomeUsuario": "Alexandre Oliveira Ribeiro",
+  "perfil": "1",
+  "idade": 24,
+  "foto": "nomeFoto.png",
+  "avaliacao": "",
+  "dt_nascimento": "17/12/1994",
+  "naturalidade": "Fortaleza",
+  "nacionalidade": "Brasileiro",
+  "genero": "1",
+  "estadoCivil": "1",
+  "nomePai": "Sergio Alexandre Guedes",
+  "nomeMae": "Samia Vale Ribeiro",
+  "cidadeNascimento": "Fortaleza",
+  "estadoNascimento": "Ceará",
+  "contatos": [
+    {
+        "tipo": "1",
+        "valor": "https://www.facebook.com/alexandre.oliveiraribeiro.1"
+	},
+	{
+	    "tipo": "2",
+    	"valor": "alexandreoribeiro"
+	},
+	{
+	    "tipo": "4",
+        "valor": "085947232938"
+    },
+    {
+        "tipo": "5",
+        "valor": "08536654851"
+	}
+  ],
+  "documentacoes":[
+    {
+        "tipo": "RG",
+        "data_expedicao": "01/05/2015",
+        "UF": "CE",
+        "CPF": "79867026055",
+        "numRG": "441516002",
+        "orgaoEmissor": "SSP-CE"
+    },
+    {
+        "tipo": "CNH",
+        "data_expedicao": "01/05/2015",
+        "UF": "CE",
+        "CPF": "79867026055",
+        "numCnh": 34165011444,
+        "codSeguranca": 123456701
+    },
+    {
+        "tipo": "RNE",
+        "data_expedicao": "01/05/2015",
+        "UF": "CE",
+        "CPF": "79867026055",
+        "numeroRNE": "V565371S"
+
+    }
+  ],
+  "enderecos":[
+    {
+        "cep": "60120002",
+        "endereco": "Av. Barão de Studart",
+        "numero": 2765,
+        "bairro": "Joaquim",
+        "cidade": "Fortaleza",
+        "estado": "Ceará",
+        "complemento":"atrás da pracinha da coelce"
+    },
+    {
+        "cep": "61700000",
+        "endereco": "Rua D",
+        "numero": 192,
+        "bairro": "Divinéia",
+        "cidade": "Aquiraz",
+        "estado": "Ceará",
+        "complemento":"a rua da ultra gás"
+    }
+  ]
+}

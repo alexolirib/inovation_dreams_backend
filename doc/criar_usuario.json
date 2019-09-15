@@ -3,6 +3,7 @@
   "username": "",
   "password": "",
   "nomeUsuario": "",
+  "perfil": "", // enum  1 - inventor, 2 - 3
   "idade": 0,
   "foto": "nomeFoto",
   //passar imagem http
@@ -16,49 +17,45 @@
   "nomeMae": "",
   "cidadeNascimento": "",
   "estadoNascimento": "",
-  "password": "",
   "contatos": [
     {
-      "contato": {
+
         "tipo": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
         "valor": ""
-      },
-      "contato": {
+    },
+    {
         "tipo": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
         "valor": ""
-      }
     }
   ],
   "documentacoes":[ //mandar informações sem pontos
     {
-      "documento":{
         "tipo": "RG", //pode somente - RG, CNH, RNE
         "data_expedicao": "",
         "UF": "",
         "CPF": "",
         "numRG": "",
         "orgaoEmissor": ""
-      },
-      "documento":{
+    },
+    {
         "tipo": "CNH", //pode somente - RG, CNH, RNE
         "data_expedicao": "",
         "UF": "",
         "CPF": "",
         "numCnh": 0,
         "codSeguranca": 0
-      },
-      "documento":{
+    },
+    {
         "tipo": "RNE", //pode somente - RG, CNH, RNE
         "data_expedicao": "",
         "UF": "",
         "CPF": "",
         "numeroRNE": ""
-      }
     }
   ],
   "enderecos":[
     {
-      "endereco":{
+
         "cep": "", //manda sem ponto
         "endereco": "",
         "numero": 0,
@@ -66,8 +63,8 @@
         "cidade": "",
         "estado": "",
         "complemento":""
-      },
-      "endereco":{
+    },
+    {
         "cep": "", //manda sem ponto
         "endereco": "",
         "numero": 0,
@@ -75,7 +72,6 @@
         "cidade": "",
         "estado": "",
         "complemento":""
-      }
     }
   ]
 }
