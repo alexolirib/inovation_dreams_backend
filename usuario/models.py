@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from contato.models import Contato
 
 GENERO = (
@@ -16,10 +17,9 @@ ESTADO_CIVIL = (
 
 
 class Usuario(models.Model):
-    nome = models.CharField(max_length=180)
+    nome = models.CharField(max_length=300)
     idade = models.IntegerField()
-    email = models.CharField(max_length=50)
-    foto = models.CharField(max_length=40)
+    foto = models.CharField(max_length=40, null=True)
     availiacao = models.IntegerField(null=True)
     dt_nascimento = models.DateField()
     naturalidade = models.CharField(max_length=90)
@@ -31,9 +31,13 @@ class Usuario(models.Model):
     cidade_nascimento = models.CharField(max_length=100)
     estado_nascimento = models.CharField(max_length=100)
     cadastro_finalizado = models.BooleanField(default=False)
+    auth_user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
 
 
-    def criar_usuario(selfs, data):
+    @staticmethod
+    def criar_usuario(data):
+        return 'sucesso'
+
 
     def __str__(self):
         return self.nome

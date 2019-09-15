@@ -2,8 +2,9 @@
 {
   "username": "",
   "password": "",
-  "nomeUsuario": "",
+  "email": "",
   "perfil": "", // enum  1 - inventor, 2 - 3
+  "nomeUsuario": "",
   "idade": 0,
   "foto": "nomeFoto",
   //passar imagem http
