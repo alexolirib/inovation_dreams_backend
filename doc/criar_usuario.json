@@ -1,78 +1,39 @@
-//POST - criar usuário
+//POST - Criar Usuário
 {
-  "username": "",
-  "password": "",
   "email": "",
-  "perfil": "", // enum  1 - inventor, 2 - investidor
-  "nomeUsuario": "",
-  "idade": 0,
-  "foto": "nomeFoto",
+  "password": "",
+  "profile": ""
+},
+
+//POST - Editar usuário
+{
+  "id": "",
+  "email": "",
+  "profile": "", // enum  1 - inventor, 2 - investidor
+  "fullName": "",//obrigatório
+  "photo": "nomeFoto",//não é obrigatorio
   //passar imagem http
-  "avaliacao": "",
-  "dt_nascimento": "",
-  "naturalidade": "",
-  "nacionalidade": "",
-  "genero": "", // enum 1 - Masculino, 2- Feminino
-  "estadoCivil": "", // enum 1 - Solteira, 2 - Casado. 3 - Divorciado, 4 - Viúvo
-  "nomePai": "",
-  "nomeMae": "",
-  "cidadeNascimento": "",
-  "estadoNascimento": "",
-  "contatos": [
+  "birthDate": "",
+  "nationality": "",
+  "genre": "", // enum 1 - Masculino, 2- Feminino
+  "cpf": "",
+  "contacts": [
     {
-
-        "tipo": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
-        "valor": ""
+        "type": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
+        "value": ""
     },
     {
-        "tipo": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
-        "valor": ""
+        "type": "", //enum 1 - Facebook, 2 - Instagram, 3- Linkedin, 4- Celular, 5 - Telefone
+        "value": ""
     }
   ],
-  "documentacoes":[ //mandar informações sem pontos
-    {
-        "tipo": "RG", //pode somente - RG, CNH, RNE
-        "data_expedicao": "",
-        "UF": "",
-        "CPF": "",
-        "numRG": "",
-        "orgaoEmissor": ""
-    },
-    {
-        "tipo": "CNH", //pode somente - RG, CNH, RNE
-        "data_expedicao": "",
-        "UF": "",
-        "CPF": "",
-        "numCnh": 0,
-        "codSeguranca": 0
-    },
-    {
-        "tipo": "RNE", //pode somente - RG, CNH, RNE
-        "data_expedicao": "",
-        "UF": "",
-        "CPF": "",
-        "numeroRNE": ""
-    }
-  ],
-  "enderecos":[
-    {
-
-        "cep": "", //manda sem ponto
-        "endereco": "",
-        "numero": 0,
-        "bairro": "",
-        "cidade": "",
-        "estado": "",
-        "complemento":""
-    },
-    {
-        "cep": "", //manda sem ponto
-        "endereco": "",
-        "numero": 0,
-        "bairro": "",
-        "cidade": "",
-        "estado": "",
-        "complemento":""
-    }
-  ]
+  "address":{
+        "zipCode": "", //manda sem ponto
+        "street": "",
+        "number": 0,
+        "neighbourhood": "",
+        "city": "",
+        "state": "",
+        "complement":""
+  }
 }

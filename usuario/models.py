@@ -1,6 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
-from contato.models import Contato
+from django.contrib.auth.models import User as UserAuth, Group
+from contato.models import Contact
+from endereco.models import Address
+import uuid
 
 GROUP = (
     'inventor',
@@ -12,58 +14,53 @@ GENERO = (
     (2, 'Feminino')
 )
 
-ESTADO_CIVIL = (
-    (1, 'Solteiro'),
-    (2, 'Casado'),
-    (3, 'Divorciado'),
-    (4, 'Viúvo')
 
-)
-
-
-class Usuario(models.Model):
-    nome = models.CharField(max_length=300)
-    idade = models.IntegerField()
-    foto = models.CharField(max_length=40, null=True)
-    availiacao = models.IntegerField(null=True)
-    dt_nascimento = models.DateField()
-    naturalidade = models.CharField(max_length=90)
-    nacionalidade = models.CharField(max_length=90)
-    genero = models.CharField(choices=GENERO, max_length=10)
-    estado_civil = models.CharField(choices=ESTADO_CIVIL, max_length=10)
-    nome_mae = models.CharField(max_length=180)
-    nome_pai = models.CharField(max_length=180, null=True)
-    cidade_nascimento = models.CharField(max_length=100)
-    estado_nascimento = models.CharField(max_length=100)
-    cadastro_finalizado = models.BooleanField(default=False)
-    auth_user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
-
-
-
-
+class User(models.Model):
+    id = models.CharField(max_length=250,primary_key=True)
+    fullName = models.CharField(max_length=300, null=True)
+    photo = models.CharField(max_length=100, null=True)
+    birthDate = models.DateField(null=True)
+    nationality = models.CharField(max_length=90, null=True)
+    genre = models.CharField(choices=GENERO, max_length=10, null=True)
+    cpf = models.CharField(max_length=11, null=True)
+    state = models.BooleanField(default=True)
+    address = models.OneToOneField(Address, null=True, unique=True, on_delete=models.CASCADE)
+    auth_user = models.OneToOneField(UserAuth, unique=True, on_delete=models.CASCADE)
 
     @staticmethod
     def criar_usuario(data):
-        list_response =[]
+        userAuth = UserAuth.objects.filter(email=data['email'])
+        if len(userAuth) != 0:
+            raise Exception("Usuário já cadastrado")
 
-        user = create_or_get_user_auth(data)
+        userAuth = UserAuth.objects.create_user(username=data['email'],
+                                        password=data['password'],
+                                        email=data['email'])
+        group = Group.objects.get(name=GROUP[int(data['profile'])])
+        userAuth.groups.add(group)
 
-        return 'sucesso'
+        #user = User(id=str(uuid.uuid4()), userAuth=userAuth).save()
 
+
+        return "sucesso"
+
+    def save(self, **kwargs):
+        if not self.id:
+            self.id = uuid.uuid4()
+        super().save()
 
     def __str__(self):
-        return self.nome
+        return f"{self.id} - {self.nome}"
 
 
 class UsuarioContato(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    contato = models.OneToOneField(Contato, unique=True, on_delete=models.CASCADE)
-
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    contato = models.OneToOneField(Contact, unique=True, on_delete=models.CASCADE)
 
 
 def create_or_get_user_auth(data):
     try:
-        return User.objects.get(email=data['email'])
+        return User.objects.filter(email=data['email'])
     except:
         if data['perfil'] == None or data['perfil'] == "":
             raise Exception('É preciso informar qual é o perfil do usuário para ser cadastrado.')
