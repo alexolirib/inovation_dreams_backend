@@ -11,10 +11,11 @@ class CriarUsuarioView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            data = request.data
-            print(data)
-            response = User.criar_usuario(data)
-            json = response
+            
+            # data = request.data
+            # print(data)
+            # response = User.criar_usuario(data)
+            # json = response
             return Response(json, status=201)
         except Exception as e:
             error = {'Error': e.args[0], 'hora': datetime.now()}

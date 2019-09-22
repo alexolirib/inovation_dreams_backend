@@ -39,7 +39,7 @@ class User(models.Model):
         group = Group.objects.get(name=GROUP[int(data['profile'])])
         userAuth.groups.add(group)
 
-        #user = User(id=str(uuid.uuid4()), userAuth=userAuth).save()
+        User(id=str(uuid.uuid4()), auth_user=userAuth).save()
 
 
         return "sucesso"
@@ -50,7 +50,7 @@ class User(models.Model):
         super().save()
 
     def __str__(self):
-        return f"{self.id} - {self.nome}"
+        return f"{self.id} - {self.auth_user.email}"
 
 
 class UsuarioContato(models.Model):
