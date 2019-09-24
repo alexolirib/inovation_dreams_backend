@@ -40,9 +40,8 @@ class User(models.Model):
         userAuth.groups.add(group)
 
         User(id=str(uuid.uuid4()), auth_user=userAuth).save()
-
-
-        return "sucesso"
+        # return User.objects.get(auth_user__email=data['email'])
+        return userAuth
 
     def save(self, **kwargs):
         if not self.id:
