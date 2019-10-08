@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User as UserAuth, Group
 from contato.models import Contact
 from endereco.models import Address
+from usuario.managers import UsuarioManager
 import uuid
 
 GROUP = (
@@ -17,15 +18,17 @@ GENERO = (
 
 class User(models.Model):
     id = models.CharField(max_length=250,primary_key=True)
-    fullName = models.CharField(max_length=300, null=True)
-    photo = models.CharField(max_length=100, null=True)
-    birthDate = models.DateField(null=True)
-    nationality = models.CharField(max_length=90, null=True)
-    genre = models.CharField(choices=GENERO, max_length=10, null=True)
-    cpf = models.CharField(max_length=11, null=True)
+    fullName = models.CharField(max_length=300, null=True, blank=True)
+    photo = models.CharField(max_length=100, null=True, blank=True)
+    birthDate = models.DateField(null=True, blank=True)
+    nationality = models.CharField(max_length=90, null=True, blank=True)
+    genre = models.CharField(choices=GENERO, max_length=10, null=True, blank=True)
+    cpf = models.CharField(max_length=11, null=True, blank=True)
     state = models.BooleanField(default=True)
     address = models.OneToOneField(Address, null=True, unique=True, on_delete=models.CASCADE)
     auth_user = models.OneToOneField(UserAuth, unique=True, on_delete=models.CASCADE)
+
+    objects = UsuarioManager()
 
     @staticmethod
     def criar_usuario(data):
@@ -38,10 +41,15 @@ class User(models.Model):
                                         email=data['email'])
         group = Group.objects.get(name=GROUP[int(data['profile'])])
         userAuth.groups.add(group)
+        id_user = str(uuid.uuid4())
+        address = Address()
+        address.save()
+        user = User(id=id_user, auth_user=userAuth, address=address)
+        user.save()
 
-        User(id=str(uuid.uuid4()), auth_user=userAuth).save()
-        # return User.objects.get(auth_user__email=data['email'])
-        return userAuth
+        json = User.objects.get_user_fom_user_auth_json(user_auth=userAuth)
+
+        return json
 
     def save(self, **kwargs):
         if not self.id:

@@ -1,17 +1,32 @@
+from enum import Enum
+
 from django.db import models
 
-CONTATO_TIPO_ENUM = (
-    (1, 'Facebook'),
-    (2, 'Instragram'),
-    (3, 'Linkedin'),
-    (4, 'Celular')
-)
+class ContactTypeChoice(Enum):
+    face = 'Facebook'
+    insta = 'Instagram'
+    linke = 'Linkedin'
+    cel = 'Celula'
 
+    @classmethod
+    def all(self):
+        return [
+            ContactTypeChoice.face,
+            ContactTypeChoice.insta,
+            ContactTypeChoice.linke,
+            ContactTypeChoice.cel
+        ]
 
 class Contact(models.Model):
 
-    type = models.CharField(choices=CONTATO_TIPO_ENUM, max_length=15)
+    type = models.CharField(
+        choices=[(tag.value, tag.name) for tag in ContactTypeChoice.all()]
+        , max_length=15
+    )
     value = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"{self.type} - {self.value}"
 
     @staticmethod
     def criar_lista_contato(contatos):

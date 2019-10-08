@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User as UserAuth
+from usuario.models import User
 
 
 class CreateUserSerializer(serializers.Serializer):
@@ -31,7 +32,3 @@ class CreateUserSerializer(serializers.Serializer):
             raise serializers.ValidationError(error)
 
         return data
-
-
-class GetInforUserFromUserAuthSerializer(serializers.Serializer):
-        pass
