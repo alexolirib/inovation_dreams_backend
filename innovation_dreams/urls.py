@@ -10,7 +10,7 @@ router.register(r'usuario', UsuarioViewSet)
 router.register(r'address', AddressViewSet, base_name='Address')
 
 urlAPI = [
-    path('usuario/', include('usuario.urls')),
+    # path('usuario/', include('usuario.urls')),
     path('', include(router.urls))
 ]
 

@@ -1,7 +1,11 @@
+import uuid
+
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
-from usuario.models import User, UserContact
-from django.contrib.auth.models import User as UserAuth
+
+from endereco.models import Address
+from usuario.models import User, UserContact, GROUP
+from django.contrib.auth.models import User as UserAuth, Group
 from rest_framework import serializers
 
 
@@ -44,10 +48,7 @@ class UsuarioSerializer(ModelSerializer):
             'nationality',
             'state',
             'address',
-            'contacts',
-            # 'usercontact_set'
             'contacts'
-            # 'usuarioContato'
         )
 
     def get_email(self, obj):
@@ -59,14 +60,23 @@ class CreateUserSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=15)
     profile = serializers.CharField(max_length=1)
 
-    # def create(self, validated_data):
-    #     return {**validated_data}
-    #
-    # def update(self, instance, validated_data):
-    #     instance.email = validated_data.get('email', instance.email)
-    #     instance.password = validated_data.get('password', instance.password)
-    #     instance.profile = validated_data.get('profile', instance.profile)
-    #     return instance
+    def create(self):
+        userAuth = UserAuth.objects.filter(email=self.data['email'])
+        if len(userAuth) != 0:
+            raise Exception("Usuário já cadastrado")
+
+        userAuth = UserAuth.objects.create_user(username=self.data['email'],
+                                                password=self.data['password'],
+                                                email=self.data['email'])
+        group = Group.objects.get(name=GROUP[int(self.data['profile'])])
+        userAuth.groups.add(group)
+        id_user = str(uuid.uuid4())
+        address = Address()
+        address.save()
+        user = User(id=id_user, auth_user=userAuth, address=address)
+        user.save()
+
+        return user
 
     def validate(self, data):
         error = {}
