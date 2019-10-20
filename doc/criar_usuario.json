@@ -36,4 +36,31 @@
         "state": "",
         "complement":""
   }
+},
+//return
+{
+    "email": "13@gmail.com",
+    "id": "31b201e1-c030-4980-9cff-01568ff08559",
+    "fullName": null,
+    "photo": "",
+    "birthDate": null,
+    "nationality": null,
+    "genre": null,
+    "cpf": null,
+    "state": true,
+    "contacts": [
+        {
+            "type": "Celula",
+            "value": "085982171787"
+        }
+    ],
+    "address": {
+        "zipCode": null,
+        "street": null,
+        "number": null,
+        "state": null,
+        "neighbourhood": null,
+        "city": null,
+        "complement": null
+    }
 }

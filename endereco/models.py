@@ -8,3 +8,4 @@ class Address(models.Model):
     neighbourhood = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=180, null=True, blank=True)
     complement = models.CharField(max_length=180, null=True, blank=True)
+

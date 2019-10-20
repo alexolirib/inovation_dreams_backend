@@ -5,8 +5,8 @@ class UsuarioManager(models.Manager):
     def get_user_fom_user_auth_json(self, user_auth):
 
         user = self.get(auth_user=user_auth)
-        from usuario.models import UsuarioContato
-        users_contacts = UsuarioContato.objects.filter(usuario=user)
+        from usuario.models import UserContact
+        users_contacts = UserContact.objects.filter(usuario=user)
         address_json = user.address.__dict__
         address_json.pop('_state')
         address_json.pop('id')
