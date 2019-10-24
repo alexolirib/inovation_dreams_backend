@@ -5,4 +5,4 @@ from endereco.models import Address
 class AddressSerializer(ModelSerializer):
     class Meta:
         model = Address
-        fields = ['zipCode', 'street']
+        fields = '__all__'

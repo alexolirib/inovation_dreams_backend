@@ -6,7 +6,7 @@ class ContactTypeChoice(Enum):
     face = 'Facebook'
     insta = 'Instagram'
     linke = 'Linkedin'
-    cel = 'Celula'
+    cel = 'Celular'
 
     @classmethod
     def all(self):
@@ -28,7 +28,6 @@ class Contact(models.Model):
     def __str__(self):
         return f"{self.type} - {self.value}"
 
-    @staticmethod
-    def criar_lista_contato(contatos):
-        # return [x for Contato(Ctipo_contato=x['tipo'], valor_contato=x['valor']) in contatos]
-        return [Contact(tipo_contato=x['tipo'], valor_contato=x['valor']) for x in contatos]
+    # @staticmethod
+    # def criar_lista_contato(contatos):
+    #     return [Contact(tipo_contato=x['tipo'], valor_contato=x['valor']) for x in contatos]
