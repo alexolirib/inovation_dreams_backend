@@ -4,6 +4,8 @@ from contato.models import Contact
 from endereco.models import Address
 import uuid
 
+from usuario.managers import UserContactManage
+
 GROUP = (
     'inventor',
     'investidor'
@@ -40,3 +42,4 @@ class UserContact(models.Model):
     user = models.ForeignKey(User, related_name='contacts', on_delete=models.CASCADE)
     contact = models.OneToOneField(Contact, unique=True, on_delete=models.CASCADE)
 
+    objects = UserContactManage()

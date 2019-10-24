@@ -3,20 +3,23 @@ import uuid
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
-from contato.models import Contact
 from endereco.api.serializers import AddressSerializer
 from endereco.models import Address
 from usuario.models import User, UserContact, GROUP
 from django.contrib.auth.models import User as UserAuth, Group
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 
 class UserContactSerializer(ModelSerializer):
+    id = SerializerMethodField()
     type = SerializerMethodField()
     value = SerializerMethodField()
+
     class Meta:
         model = UserContact
         fields = (
+            'id',
             'type',
             'value'
         )
@@ -26,6 +29,9 @@ class UserContactSerializer(ModelSerializer):
 
     def get_value(self, obj):
         return obj.contact.value
+
+    def get_id(self, obj):
+        return obj.contact.id
 
 
 
@@ -64,20 +70,33 @@ class UsuarioSerializer(ModelSerializer):
         address.complement = data['complement']
 
     def update_contacts(self, user, data_list):
-        contacts = user.contacts()
+        contacts = user.contacts
+        user_contact_list = []
         for data in data_list:
-            if contacts.filter(contact__type=data['type'], contact__value=data['value']).count() ==0:
-                contact = Contact(type=data['type'], value=data['value'])
+            #verifica se tem id
+            if data.get('id'):
+                userContact = contacts.filter(contact=data['id'])
+                if not userContact:
+                    raise Exception("Tentando atualizar um contato de outro usuário")
+                userContact = userContact[0]
+                userContact.contact.type = data['type']
+                userContact.contact.value = data['value']
+                user_contact_list.append(userContact)
+
+            # if contacts.filter(contact__type=data['type'], contact__value=data['value']).count() == 0:
+            #     contact = Contact(type=data['type'], value=data['value'])
                 # UserContact(user=)
                 # contacts.add(Contact())
+        return user_contact_list
 
 
 
 
     def update(self, instance, validated_data):
         self.update_address(instance.address, validated_data['address'])
-        self.update_contacts(instance, validated_data['contacts'])
+        user_contact_list = self.update_contacts(instance, validated_data['contacts'])
 
+        UserContact.objects.bulk_create_or_update(user_contact_list)
         instance.save()
 
         return self
@@ -98,6 +117,7 @@ class CreateUserSerializer(serializers.Serializer):
             raise Exception("Usuário já cadastrado")
 
         userAuth = UserAuth.objects.create_user(username=self.data['email'],
+                                                first_name=self.data['fullName'],
                                                 password=self.data['password'],
                                                 email=self.data['email'])
         fullName = self.data['fullName']
@@ -107,6 +127,7 @@ class CreateUserSerializer(serializers.Serializer):
         address = Address()
         address.save()
         user = User(id=id_user, fullName=fullName, auth_user=userAuth, address=address)
+        Token.objects.create(user=userAuth)
         user.save()
 
         return user

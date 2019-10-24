@@ -31,7 +31,7 @@ class UsuarioViewSet(ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def retrieve(self, request, *args, **kwargs):
-        pass
+        return super(UsuarioViewSet, self).retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         return self.criar(request)
