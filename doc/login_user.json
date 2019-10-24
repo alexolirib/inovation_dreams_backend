@@ -2,5 +2,13 @@
 {
 	"username":"alexolirib@gmail.com",
 	"password":"123456"
-}
+},
 //response
+{
+    "token": "e261985d7291ad5e5cc0aa1f748ca42237f5c17f",
+    "user_id": "db453928-792f-428d-85e6-01c0407303ca",
+    "email": "alexolirib@gmail.com"
+},
+
+//Cabeçalho (Authorization Token e261985d7291ad5e5cc0aa1f748ca42237f5c17f
+
