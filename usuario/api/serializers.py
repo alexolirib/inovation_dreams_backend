@@ -3,12 +3,16 @@ import uuid
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
+from contato.models import ContactTypeChoice, Contact
 from endereco.api.serializers import AddressSerializer
 from endereco.models import Address
 from usuario.models import User, UserContact, GROUP
 from django.contrib.auth.models import User as UserAuth, Group
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+from pycpfcnpj import cpfcnpj
+
+from usuario.utils import store_image
 
 
 class UserContactSerializer(ModelSerializer):
@@ -39,7 +43,7 @@ class UsuarioSerializer(ModelSerializer):
 
     email = SerializerMethodField()
     # contacts = serializers.Field(source='usercontact_set')
-    contacts = UserContactSerializer(many=True)
+    contacts = UserContactSerializer(many=True, read_only=True)
     address = AddressSerializer()
     # contacts = serializers.SerializerMethodField(source='usercontact_set')
 
@@ -73,33 +77,65 @@ class UsuarioSerializer(ModelSerializer):
         contacts = user.contacts
         user_contact_list = []
         for data in data_list:
+
             #verifica se tem id
             if data.get('id'):
                 userContact = contacts.filter(contact=data['id'])
                 if not userContact:
                     raise Exception("Tentando atualizar um contato de outro usuário")
                 userContact = userContact[0]
-                userContact.contact.type = data['type']
+                try:
+                    userContact.contact.type = ContactTypeChoice(data['type']).value
+                except:
+                    contacts = [x.value for x in ContactTypeChoice.all()]
+                    raise Exception("É preciso mandar um type de contato válido. Segue os types válidos %s" % str(contacts))
                 userContact.contact.value = data['value']
                 user_contact_list.append(userContact)
+            else:
+                contact = Contact()
+                try:
+                    contact.type = ContactTypeChoice(data['type']).value
+                except:
+                    contacts = [x.value for x in ContactTypeChoice.all()]
+                    raise Exception("É preciso mandar um type de contato válido. Segue os types válidos %s" % str(contacts))
+                contact.value = data['value']
 
-            # if contacts.filter(contact__type=data['type'], contact__value=data['value']).count() == 0:
-            #     contact = Contact(type=data['type'], value=data['value'])
-                # UserContact(user=)
-                # contacts.add(Contact())
+                user_contact_list.append(UserContact(user=user, contact=contact))
         return user_contact_list
-
-
-
 
     def update(self, instance, validated_data):
         self.update_address(instance.address, validated_data['address'])
         user_contact_list = self.update_contacts(instance, validated_data['contacts'])
 
         UserContact.objects.bulk_create_or_update(user_contact_list)
+
+        instance.fullName = validated_data['fullName']
+        if validated_data['photo'] is not None:
+            photo = validated_data['photo'].split(',')
+            image64 = photo[1]
+            instance.photo = store_image(
+                directory='usuario',
+                photo_name=instance.id,
+                image64=image64
+            )
+        instance.birthDate = validated_data['birthDate']
+        instance.nationality = validated_data['nationality']
+        if validated_data['genre'] is not None:
+            if validated_data['genre'] == 'M' or validated_data['genre'] == 'F':
+                instance.genre = validated_data['genre']
+            else:
+                raise Exception('Genre tem que ser M ou F')
+
+        if validated_data['cpf'] is not None:
+            if not cpfcnpj.validate(validated_data['cpf']):
+                raise Exception('CPF Inválido')
+
+            instance.cpf = validated_data['cpf']
+
+        instance.state = validated_data['state']
         instance.save()
 
-        return self
+        return instance
 
     def get_email(self, obj):
         return obj.auth_user.email

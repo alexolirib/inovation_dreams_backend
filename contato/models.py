@@ -2,6 +2,7 @@ from enum import Enum
 
 from django.db import models
 
+
 class ContactTypeChoice(Enum):
     face = 'Facebook'
     insta = 'Instagram'
@@ -16,6 +17,7 @@ class ContactTypeChoice(Enum):
             ContactTypeChoice.linke,
             ContactTypeChoice.cel
         ]
+
 
 class Contact(models.Model):
 

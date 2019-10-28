@@ -1,3 +1,5 @@
+from tokenize import Token
+
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
@@ -37,10 +39,14 @@ class UsuarioViewSet(ModelViewSet):
         return self.criar(request)
 
     def update(self, request, *args, **kwargs):
+        userAuth = request.user
         user = User.objects.get(id=kwargs['pk'])
-        serializer = UsuarioSerializer(user).update(user, request.data)
+        if userAuth.user.id != user.id:
+            raise Exception("Um usuário está tentando fazer alteração de outro usuário!")
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user = UsuarioSerializer(user).update(user, request.data)
+
+        return Response(self.get_serializer(user).data, status=status.HTTP_201_CREATED)
 
     @action(methods=['post'], detail=False)
     def criar(self, request):
