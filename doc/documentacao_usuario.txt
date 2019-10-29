@@ -1,0 +1,146 @@
+LOGIN:
+
+URL: http://localhost:8000/api/v1/login/
+method: POST
+Request:
+{
+	"username":"alexolirib@gmail.com",
+	"password":"123456"
+}
+
+Response:
+{
+    "token": "c3bf08750ba265d1fb466cafbef2b210dab3b102",
+    "user_id": "5a8af6ba-415d-4719-91a3-aa400fdd4a8d",
+    "email": "alexolirib@gmail.com"
+}
+
+
+----------------------------------------------------------------------------
+
+Criar usuário:
+
+URL: http://localhost:8000/api/v1/usuario/
+method: POST
+Request:
+{
+  "fullName": "Gabriel Monteiro",
+  "email": "alexolirib@gmail.com",
+  "password": "123456",
+//1- inventor
+  "profile": "1" 
+}
+
+Response:
+{
+    "id": "9d2720e9-cf51-4845-93a3-1799872080b8",
+    "email": "alexolirib2@gmail.com",
+    "fullName": "Gabriel Monteiro",
+    "photo": null,
+    "birthDate": null,
+    "genre": null,
+    "cpf": null,
+    "nationality": null,
+    "state": true,
+    "address": {
+        "id": 3,
+        "zipCode": null,
+        "street": null,
+        "number": null,
+        "state": null,
+        "neighbourhood": null,
+        "city": null,
+        "complement": null
+    },
+    "contacts": []
+}
+
+
+----------------------------------------------------------------------------
+
+Listar Usuarios:
+
+URL: http://localhost:8000/api/v1/usuario/
+method: GET
+Token: True
+Header:
+	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
+
+----------------------------------------------------------------------------
+
+Obter Usuário específico:
+URL: http://localhost:8000/api/v1/usuario/{user_id}/
+method: GET
+Token: True
+Header:
+	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
+
+----------------------------------------------------------------------------
+
+
+Alterar Usuário:
+URL: http://localhost:8000/api/v1/usuario/{user_id}/
+method: PUT
+Token: True
+Header:
+	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
+*Obs: Só é permitio alterar informações do usuário que foi logado. Ou seja, um usuário não pode alterar informações de outro usuário.
+
+Request:
+{
+	"id": "9d2720e9-cf51-4845-93a3-1799872080b8",
+	"email": "alexolirib2@gmail.com",
+	"fullName": "Gabriel Monteiro",
+	"photo": null,
+	"birthDate": null,
+	"genre": null,
+	"cpf": null,
+	"nationality": null,
+	"state": true,
+	"address": {
+	"id": 3,
+	"zipCode": null,
+	"street": null,
+	"number": null,
+	"state": null,
+	"neighbourhood": null,
+	"city": null,
+	"complement": null
+	},
+	"contacts": [
+		{
+			"type": "Celular",
+			"value": "9999944"
+		}
+	]
+}
+
+Response:
+{
+	"id": "9d2720e9-cf51-4845-93a3-1799872080b8",
+	"email": "alexolirib2@gmail.com",
+	"fullName": "Gabriel Monteiro",
+	"photo": null,
+	"birthDate": null,
+	"genre": null,
+	"cpf": null,
+	"nationality": null,
+	"state": true,
+	"address": {
+	"id": 3,
+	"zipCode": null,
+	"street": null,
+	"number": null,
+	"state": null,
+	"neighbourhood": null,
+	"city": null,
+	"complement": null
+	},
+	"contacts": [
+		{
+			"id": 1
+			"type": "Celular",
+			"value": "9999944"
+		}
+	]
+}
