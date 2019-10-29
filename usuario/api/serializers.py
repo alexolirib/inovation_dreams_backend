@@ -16,7 +16,7 @@ from usuario.utils import store_image
 
 
 class UserContactSerializer(ModelSerializer):
-    id = SerializerMethodField()
+    # id = SerializerMethodField()
     type = SerializerMethodField()
     value = SerializerMethodField()
 
@@ -34,8 +34,8 @@ class UserContactSerializer(ModelSerializer):
     def get_value(self, obj):
         return obj.contact.value
 
-    def get_id(self, obj):
-        return obj.contact.id
+    # def get_id(self, obj):
+    #     return obj.contact.id
 
 
 
@@ -75,14 +75,21 @@ class UsuarioSerializer(ModelSerializer):
 
     def update_contacts(self, user, data_list):
         contacts = user.contacts
-        user_contact_list = []
+        user_contact_list_atual = UserContact.objects.filter(user=user).values_list('id')
+        user_contact_list_atual = [x[0] for x in user_contact_list_atual]
+
+        user_contact_list_atualizado = []
+        user_contact_list_remove = []
+
         for data in data_list:
 
             #verifica se tem id
             if data.get('id'):
-                userContact = contacts.filter(contact=data['id'])
-                if not userContact:
+                if data['id'] not in user_contact_list_atual:
                     raise Exception("Tentando atualizar um contato de outro usuário")
+                user_contact_list_atual.remove(data['id'])
+
+                userContact = contacts.filter(contact=data['id'])
                 userContact = userContact[0]
                 try:
                     userContact.contact.type = ContactTypeChoice(data['type']).value
@@ -90,7 +97,7 @@ class UsuarioSerializer(ModelSerializer):
                     contacts = [x.value for x in ContactTypeChoice.all()]
                     raise Exception("É preciso mandar um type de contato válido. Segue os types válidos %s" % str(contacts))
                 userContact.contact.value = data['value']
-                user_contact_list.append(userContact)
+                user_contact_list_atualizado.append(userContact)
             else:
                 contact = Contact()
                 try:
@@ -100,14 +107,16 @@ class UsuarioSerializer(ModelSerializer):
                     raise Exception("É preciso mandar um type de contato válido. Segue os types válidos %s" % str(contacts))
                 contact.value = data['value']
 
-                user_contact_list.append(UserContact(user=user, contact=contact))
-        return user_contact_list
+                user_contact_list_atualizado.append(UserContact(user=user, contact=contact))
+
+        for user_contact_id in  user_contact_list_atual:
+            user_contact_list_remove.append(UserContact.objects.get(id=user_contact_id))
+
+        return {"atualizar": user_contact_list_atualizado, "remover": user_contact_list_remove}
 
     def update(self, instance, validated_data):
         self.update_address(instance.address, validated_data['address'])
         user_contact_list = self.update_contacts(instance, validated_data['contacts'])
-
-        UserContact.objects.bulk_create_or_update(user_contact_list)
 
         instance.fullName = validated_data['fullName']
         if validated_data['photo'] is not None:
@@ -133,6 +142,8 @@ class UsuarioSerializer(ModelSerializer):
             instance.cpf = validated_data['cpf']
 
         instance.state = validated_data['state']
+
+        UserContact.objects.bulk_create_or_update_or_delete(user_contact_list)
         instance.save()
 
         return instance

@@ -37,6 +37,6 @@ class User(models.Model):
 
 class UserContact(models.Model):
     user = models.ForeignKey(User, related_name='contacts', on_delete=models.CASCADE)
-    contact = models.OneToOneField(Contact, unique=True, on_delete=models.CASCADE)
+    contact = models.OneToOneField(Contact, null= True, blank=True, unique=True, on_delete=models.CASCADE)
 
     objects = UserContactManage()
