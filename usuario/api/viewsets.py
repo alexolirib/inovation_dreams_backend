@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from usuario.api.serializers import UsuarioSerializer, CreateUserSerializer
+from usuario.api.serializers import UsuarioSerializer, CreateUserSerializer, LoginSerializer
 from usuario.models import User
 
 
@@ -53,7 +53,7 @@ class UsuarioViewSet(ModelViewSet):
         data_serializar = CreateUserSerializer(data=request.data)
         data_serializar.is_valid(raise_exception=True)
         user = data_serializar.create()
-        serializer = UsuarioSerializer(user)
+        serializer = LoginSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

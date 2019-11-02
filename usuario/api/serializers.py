@@ -38,6 +38,27 @@ class UserContactSerializer(ModelSerializer):
     #     return obj.contact.id
 
 
+class LoginSerializer(ModelSerializer):
+    token = SerializerMethodField()
+    email = SerializerMethodField()
+    user_id = SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            'token',
+            'user_id',
+            'email'
+        )
+
+    def get_token(self, obj):
+        return Token.objects.get(user=obj.auth_user).pk
+
+    def get_email(self, obj):
+        return obj.auth_user.email
+
+    def get_user_id(self, obj):
+        return obj.id
 
 class UsuarioSerializer(ModelSerializer):
 

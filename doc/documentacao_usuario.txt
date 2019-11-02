@@ -33,26 +33,9 @@ Request:
 
 Response:
 {
-    "id": "9d2720e9-cf51-4845-93a3-1799872080b8",
-    "email": "alexolirib2@gmail.com",
-    "fullName": "Gabriel Monteiro",
-    "photo": null,
-    "birthDate": null,
-    "genre": null,
-    "cpf": null,
-    "nationality": null,
-    "state": true,
-    "address": {
-        "id": 3,
-        "zipCode": null,
-        "street": null,
-        "number": null,
-        "state": null,
-        "neighbourhood": null,
-        "city": null,
-        "complement": null
-    },
-    "contacts": []
+    "token": "c3bf08750ba265d1fb466cafbef2b210dab3b102",
+    "user_id": "5a8af6ba-415d-4719-91a3-aa400fdd4a8d",
+    "email": "alexolirib@gmail.com"
 }
 
 
