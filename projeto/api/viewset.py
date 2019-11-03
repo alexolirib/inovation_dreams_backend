@@ -13,4 +13,5 @@ class ProjectViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         data_serializer = CreateProjectSerializer(data=request.data)
         data_serializer.is_valid(raise_exception=True)
+        data_serializer.create()
         return Response('ok', status=status.HTTP_201_CREATED)

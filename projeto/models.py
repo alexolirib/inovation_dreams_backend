@@ -15,7 +15,7 @@ class Category(models.Model):
 
 class Project(models.Model):
     title = models.CharField(max_length=500)
-    description = models.TextField()
+    description = models.TextField(null=True)
     summary = models.CharField(max_length=1000)
     views = models.IntegerField(default=0)
     date_creation = models.DateField(auto_now_add=True)

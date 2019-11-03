@@ -1,6 +1,7 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
+from datetime import date
 
 from projeto.models import Project, Category, ProjectImage
 
@@ -44,38 +45,45 @@ class ProjectSerializer(ModelSerializer):
             'images'
         )
 
-# class ListImageSerialize(serializers.Serializer):
-#     image = serializers.ImageField()
-#
-#
-# class ListCategorySerialize(serializers.Serializer):
-#     category = serializers.CharField(max_length=1000)
-
 
 class CreateProjectSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=500)
-    description = serializers.CharField(max_length=4000)
+    description = serializers.CharField(max_length=4000, allow_null=True)
     summary = serializers.CharField(max_length=1000)
     deadline = serializers.DateField(allow_null=True)
     budget = serializers.DecimalField(max_digits=10, decimal_places=2, allow_null=True)
-    categories = CategorySerializer(many=True)
-    images = ProjectImageSerializer(many=True, allow_null=True)
+    categories = serializers.ListField()
+    images = serializers.ListField()
 
     def validate(self, data):
         error = {}
+
+        if len(data) <=3:
+            error['title'] = ['O título tem que ter pelomenos 3 caracteres']
+
         if len(data['categories']) == 0:
             error['categories'] = ['O projeto tem que se relacionar com pelomenos uma categoria']
         else:
             for category in data['categories']:
                 if category.get('category'):
-                   if len(Category.object.filter(name=category['category'])) == 0:
-                       error['categories'] = ['Categoria %s está incorreta. Categorias disponíveis são %s' % (category['category'], Category.object.all())]
+                   if len(Category.objects.filter(name=category['category'])) == 0:
+                       categories = [x.name for x in Category.objects.all()]
+                       error['categories'] = ["Categoria com valor '%s' está incorreta. Categorias disponíveis são %s" % (category['category'], categories)]
                        break
                 else:
-                    error['categories'] = ['Em categories, tem que ter o atributo category']
+                    error['categories'] = ['Em categories, tem que ter um objeto com atributo category']
                     break
+        if date.today() > data['deadline']:
+            error['deadline'] = ['O campo prazo não pode ser inferior à data presente - %s' % date.today().strftime("%d/%m/%Y")]
+
+        for image in data['images']:
+            if not image.get('image'):
+                error['images'] = ['Em images, tem que ter um objeto com atributo image']
 
         if error != {}:
             raise serializers.ValidationError(error)
-
         return data
+
+    def create(self):
+        pass
+
