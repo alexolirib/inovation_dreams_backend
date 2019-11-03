@@ -60,6 +60,7 @@ class LoginSerializer(ModelSerializer):
     def get_user_id(self, obj):
         return obj.id
 
+
 class UsuarioSerializer(ModelSerializer):
 
     email = SerializerMethodField()
@@ -80,7 +81,7 @@ class UsuarioSerializer(ModelSerializer):
             'genre',
             'cpf',
             'nationality',
-            'state',
+            'blocked',
             'address',
             'contacts'
         )

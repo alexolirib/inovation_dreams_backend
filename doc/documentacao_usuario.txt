@@ -79,7 +79,7 @@ Request:
 	"genre": null,
 	"cpf": null,
 	"nationality": null,
-	"state": true,
+	"blocked": false,
 	"address": {
 	"id": 3,
 	"zipCode": null,
@@ -108,7 +108,7 @@ Response:
 	"genre": null,
 	"cpf": null,
 	"nationality": null,
-	"state": true,
+	"blocked": false,
 	"address": {
 	"id": 3,
 	"zipCode": null,

@@ -22,7 +22,7 @@ class User(models.Model):
     nationality = models.CharField(max_length=90, null=True, blank=True)
     genre = models.CharField(max_length=1, null=True, blank=True)
     cpf = models.CharField(max_length=11, null=True, blank=True)
-    state = models.BooleanField(default=True)
+    blocked = models.BooleanField(default=False)
     address = models.OneToOneField(Address, null=True, blank=True, unique=True, on_delete=models.CASCADE)
     auth_user = models.OneToOneField(UserAuth, unique=True, on_delete=models.CASCADE)
 

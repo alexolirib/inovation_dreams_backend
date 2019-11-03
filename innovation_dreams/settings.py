@@ -49,7 +49,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 LOCAL_APPS = [
     'endereco',
     'contato',
-    'usuario'
+    'usuario',
+    'projeto'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
