@@ -190,7 +190,7 @@ class CreateUserSerializer(serializers.Serializer):
                                                 password=self.data['password'],
                                                 email=self.data['email'])
         fullName = self.data['fullName']
-        group = Group.objects.get(name=GROUP[int(self.data['profile'])])
+        group = Group.objects.get(name=GROUP[int(self.data['profile'])-1])
         userAuth.groups.add(group)
         id_user = str(uuid.uuid4())
         address = Address()

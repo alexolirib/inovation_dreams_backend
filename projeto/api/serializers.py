@@ -64,8 +64,16 @@ class CreateProjectSerializer(serializers.Serializer):
     def validate(self, data):
         error = {}
         if len(data['categories']) == 0:
-            pass
-
+            error['categories'] = ['O projeto tem que se relacionar com pelomenos uma categoria']
+        else:
+            for category in data['categories']:
+                if category.get('category'):
+                   if len(Category.object.filter(name=category['category'])) == 0:
+                       error['categories'] = ['Categoria %s está incorreta. Categorias disponíveis são %s' % (category['category'], Category.object.all())]
+                       break
+                else:
+                    error['categories'] = ['Em categories, tem que ter o atributo category']
+                    break
 
         if error != {}:
             raise serializers.ValidationError(error)
