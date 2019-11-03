@@ -21,7 +21,7 @@ class Project(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     deadline = models.DateField(null=True, blank=True)
     budget = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    category = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category)
 
     def __str__(self):
         return self.title
@@ -38,5 +38,5 @@ class UserProject(models.Model):
 
 
 class ProjectImage(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='projeto', null=True, blank=True)

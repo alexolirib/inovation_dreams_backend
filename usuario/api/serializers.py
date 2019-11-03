@@ -86,6 +86,9 @@ class UsuarioSerializer(ModelSerializer):
             'contacts'
         )
 
+    def get_email(self, obj):
+        return obj.auth_user.email
+
     def update_address(self, address, data):
         address.street = data['street']
         address.zipCode = data['zipCode']
@@ -170,9 +173,6 @@ class UsuarioSerializer(ModelSerializer):
 
         return instance
 
-    def get_email(self, obj):
-        return obj.auth_user.email
-
 
 class CreateUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -200,7 +200,6 @@ class CreateUserSerializer(serializers.Serializer):
         user.save()
 
         return user
-
 
     def validate(self, data):
         error = {}
