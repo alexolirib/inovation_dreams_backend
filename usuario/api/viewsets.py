@@ -13,7 +13,6 @@ from usuario.models import User
 
 
 class UsuarioViewSet(ModelViewSet):
-    # http_method_names = ['GET']
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
 

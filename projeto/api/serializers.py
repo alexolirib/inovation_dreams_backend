@@ -47,6 +47,7 @@ class ProjectSerializer(ModelSerializer):
 
 
 class CreateProjectSerializer(serializers.Serializer):
+
     title = serializers.CharField(max_length=500)
     description = serializers.CharField(max_length=4000, allow_null=True)
     summary = serializers.CharField(max_length=1000)
@@ -79,11 +80,30 @@ class CreateProjectSerializer(serializers.Serializer):
         for image in data['images']:
             if not image.get('image'):
                 error['images'] = ['Em images, tem que ter um objeto com atributo image']
+                break
+
+            try:
+                image = image['image'].split(',')
+                if ';base64' not in  image[0] or 'data:' not in image[0]:
+                    raise Exception("Error")
+            except:
+                error['images'] = ['Imagem não foi enviada de forma correta.']
 
         if error != {}:
             raise serializers.ValidationError(error)
         return data
 
-    def create(self):
+    def create_categories(self, categories):
         pass
+
+    def create_project_image(self, image):
+        pass
+
+    def create_user_project(self, user, project):
+        pass
+
+    def create(self, user):
+        data = self.data
+
+
 
