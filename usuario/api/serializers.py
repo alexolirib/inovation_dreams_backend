@@ -6,13 +6,13 @@ from rest_framework.serializers import ModelSerializer
 from contato.models import ContactTypeChoice, Contact
 from endereco.api.serializers import AddressSerializer
 from endereco.models import Address
+from innovation_dreams.utils import store_image
 from usuario.models import User, UserContact, GROUP
 from django.contrib.auth.models import User as UserAuth, Group
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from pycpfcnpj import cpfcnpj
 
-from usuario.utils import store_image
 
 
 class UserContactSerializer(ModelSerializer):
