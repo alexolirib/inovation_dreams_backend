@@ -89,5 +89,19 @@ Response:
 
 
 ----------------------------------------------------------------------------
+Incrementar view do projeto
+url: http://localhost:8000/api/v1/project/{id_project}/view/
+Method: POST
+Token: False
+
 ----------------------------------------------------------------------------
+Atualizar o projeto
+url: http://localhost:8000/api/v1/project/{id_project}/
+method: PUT
+Token: True
+Header:
+	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
+
+
+
 ----------------------------------------------------------------------------

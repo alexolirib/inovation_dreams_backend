@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from projeto.api.serializers import ProjectSerializer, CreateProjectSerializer, CategorySerializer, \
     CreateCategorySerializer
-from projeto.models import Project, Category
+from projeto.models import Project, Category, UserProject
 
 
 class ProjectViewSet(ModelViewSet):
@@ -36,6 +36,24 @@ class ProjectViewSet(ModelViewSet):
         data_serializer.is_valid(raise_exception=True)
         project = data_serializer.create(request.user.user)
         return Response(self.get_serializer(project).data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            project = Project.objects.get(id=kwargs['pk'])
+        except:
+            return Response({'Destails': 'Projeto não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = UserProject.objects.get(project=project).user
+        userAuth = request.user
+
+        if user.id != userAuth.user.id:
+            return Response({"Details": "Só é permitido alterar o projeto, pelo criador do projeto "}, status=status.HTTP_401_UNAUTHORIZED)
+
+        data_serializer = CreateProjectSerializer(data=request.data)
+        data_serializer.is_valid(raise_exception=True)
+        project = data_serializer.update(project, request.data)
+        return Response(self.get_serializer(project).data, status=status.HTTP_200_OK)
+
 
     @action(methods=['POST'], detail=True)
     def view(self, request, pk):

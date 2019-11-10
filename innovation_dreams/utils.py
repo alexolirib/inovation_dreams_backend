@@ -24,3 +24,8 @@ def store_image(directory='default', photo_name=None, image64=None):
         f.write(imgdata)
 
     return path
+
+def delete_image(direct_name):
+    filename = 'imagens/%s' % direct_name
+    os.remove(filename)
+

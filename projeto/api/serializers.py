@@ -4,7 +4,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from datetime import date, datetime
 
-from innovation_dreams.utils import store_image
+from innovation_dreams.utils import store_image, delete_image
 from projeto.models import Project, Category, ProjectImage, UserProject
 
 
@@ -58,6 +58,7 @@ class ProjectSerializer(ModelSerializer):
         project.save()
         return project
 
+
 class CreateProjectSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=500)
     description = serializers.CharField(max_length=4000, allow_null=True)
@@ -96,16 +97,20 @@ class CreateProjectSerializer(serializers.Serializer):
                 error['images'] = ['Em images, tem que ter um objeto com atributo image']
                 break
 
+            if '/media/project/' in image['image']:
+                continue
             try:
                 image = image['image'].split(',')
                 if ';base64' not in image[0] or 'data:' not in image[0]:
                     raise Exception("Error")
             except:
                 error['images'] = ['Imagem não foi enviada de forma correta.']
+                break
 
         if error != {}:
             raise serializers.ValidationError(error)
         return data
+
 
     def create_categories(self, project, categories):
         for category_data in categories:
@@ -139,3 +144,53 @@ class CreateProjectSerializer(serializers.Serializer):
         UserProject.objects.create(user=user, project=project)
 
         return project
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        instance.title = validated_data['title']
+        instance.description = validated_data['description']
+        instance.summary = validated_data['summary']
+        instance.deadline = validated_data['deadline']
+        instance.budget = validated_data['budget']
+
+        new_categories_values= [x['category'] for x in validated_data['categories']]
+        new_categories = []
+        for category_value in new_categories_values:
+            new_categories.append(Category.objects.get(name=category_value))
+        instance.categories.set(new_categories)
+        image_to_verify = []
+        image_to_stored = []
+
+        validated_data['images'] = [x['image'] for x in validated_data['images']]
+        for image_data in validated_data['images']:
+
+            if '/media/project/' in image_data:
+                image_to_verify.append(image_data)
+            else:
+                image_to_stored.append(image_data)
+        image_to_remove = []
+        for projectImage in instance.images.all():
+
+            image_exist = list(filter(lambda x: projectImage.image.url in x,image_to_verify))
+            if not image_exist:
+                image_to_remove.append(projectImage)
+
+        for image_data in image_to_stored:
+            photo = image_data.split(',')
+            image64 = photo[1]
+            image = store_image(
+                directory='project',
+                photo_name="%s - %s - %s" % (instance.userproject_set.last().user.id, instance.title, str(datetime.now())),
+                image64=image64
+            )
+
+            ProjectImage.objects.create(project=instance, image=image)
+
+
+        instance.save()
+
+        for remove_image in image_to_remove:
+            direct_name = str(remove_image.image)
+            remove_image.delete()
+            delete_image(direct_name)
+        return instance
