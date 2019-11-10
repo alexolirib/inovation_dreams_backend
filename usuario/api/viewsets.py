@@ -49,6 +49,3 @@ class UsuarioViewSet(ModelViewSet):
         user = data_serializar.create()
         serializer = LoginSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-

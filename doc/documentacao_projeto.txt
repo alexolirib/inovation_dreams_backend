@@ -57,9 +57,37 @@ Response:
 
 
 ----------------------------------------------------------------------------
+Listar categorias
+URL: http://localhost:8000/api/v1/category/
+method: GET
+Token: False
+
+----------------------------------------------------------------------------
+Criar Categoria
+URL: http://localhost:8000/api/v1/category/
+method: POST
+TOKEN: True
+Header:
+	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
+
+Request:
+{
+    "category": "Teste2"
+}
+Response:
+[
+    {
+        "category": "TI"
+    },
+    {
+        "category": "Teste"
+    },
+    {
+        "category": "Teste2"
+    }
+]
 
 
 ----------------------------------------------------------------------------
-
-
+----------------------------------------------------------------------------
 ----------------------------------------------------------------------------

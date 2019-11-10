@@ -19,6 +19,13 @@ class CategorySerializer(ModelSerializer):
         return obj.name
 
 
+class CreateCategorySerializer(serializers.Serializer):
+    category = serializers.CharField(max_length=1000)
+
+    def create(self):
+        Category.objects.create(name=self.data['category'])
+
+
 class ProjectImageSerializer(ModelSerializer):
     class Meta:
         model = ProjectImage
@@ -44,6 +51,12 @@ class ProjectSerializer(ModelSerializer):
             'images'
         )
 
+    def increment_view(self):
+        view  = self.data['views']
+        project = Project.objects.get(id=self.data['id'])
+        project.views = view +1
+        project.save()
+        return project
 
 class CreateProjectSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=500)
