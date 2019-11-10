@@ -19,11 +19,6 @@ class UsuarioViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #
-    #     if self.request.method == "POST":
-    #         self.permission_classes = (permission'')
-
     def get_permissions(self):
         if self.request.method == "POST":
             permission_classes = [AllowAny]

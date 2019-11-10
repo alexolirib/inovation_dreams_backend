@@ -5,7 +5,7 @@ from rest_framework import serializers
 from datetime import date, datetime
 
 from innovation_dreams.utils import store_image
-from projeto.models import Project, Category, ProjectImage
+from projeto.models import Project, Category, ProjectImage, UserProject
 
 
 class CategorySerializer(ModelSerializer):
@@ -99,9 +99,6 @@ class CreateProjectSerializer(serializers.Serializer):
             cat = Category.objects.get(name=category_data['category'])
             project.categories.add(cat)
 
-    def create_user_project(self, user, project):
-        pass
-
     @transaction.atomic
     def create(self, user):
         data = self.data
@@ -112,14 +109,20 @@ class CreateProjectSerializer(serializers.Serializer):
 
         project = Project.objects.create(**data)
         self.create_categories(project=project, categories=categories)
+        project.save()
+
         if images is not None:
             for image_data in images:
                 photo = image_data['image'].split(',')
                 image64 = photo[1]
                 image = store_image(
                     directory='project',
-                    photo_name="%s - %s" % (project.title, str(datetime.now())),
+                    photo_name="%s - %s - %s" % (user.id, project.title, str(datetime.now())),
                     image64=image64
                 )
 
-        project.save()
+                ProjectImage.objects.create(project=project, image=image)
+
+        UserProject.objects.create(user=user, project=project)
+
+        return project

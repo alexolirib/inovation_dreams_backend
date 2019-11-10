@@ -2,15 +2,58 @@ Listar Projetos:
 
 URL: http://localhost:8000/api/v1/project/
 method: GET
-Token: True
+Token: False
+
+
+----------------------------------------------------------------------------
+Obter Projeto específico
+URL: http://localhost:8000/api/v1/project/{id_project}
+method: GET
+Token: False
+
+
+----------------------------------------------------------------------------
+Criar projecto (só pode criar se o usuário for inventor)
+URL: http://localhost:8000/api/v1/project/
+method: POST
 Header:
 	Authorization : Token c3bf08750ba265d1fb466cafbef2b210dab3b102
 
+Request:
+{
+    {
+        "title": "Projeto Teste",
+        "description": "teste descrição aqui teste teste descrição aqui teste",
+        "summary": "resumo teste",
+        "deadline": "2019-12-31",
+        "budget": "1500.00",
+        "categories": [{"category":"TI"}],
+        "images": [{"image": {imag_base64}}]
+}
 
-----------------------------------------------------------------------------
+Response:
+{
+    "id": 4,
+    "title": "Projeto Teste",
+    "description": "teste descrição aqui teste teste descrição aqui teste",
+    "summary": "resumo teste",
+    "views": 0,
+    "date_creation": "2019-11-10",
+    "deadline": "2019-12-31",
+    "budget": "1500.00",
+    "categories": [
+        {
+            "category": "TI"
+        }
+    ],
+    "images": [
+        {
+            "image": "http://localhost:8000/media/project/defd1216-4fae-474d-bace-88935c9baf6b%20-%20Projeto%20Teste%20-%202019-11-10%2007%3A47%3A29.058932.png"
+        }
+    ]
+}
 
 
-----------------------------------------------------------------------------
 
 
 ----------------------------------------------------------------------------

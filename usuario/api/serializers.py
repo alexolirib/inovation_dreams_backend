@@ -183,7 +183,7 @@ class CreateUserSerializer(serializers.Serializer):
     def create(self):
         userAuth = UserAuth.objects.filter(email=self.data['email'])
         if len(userAuth) != 0:
-            raise Exception("Usuário já cadastrado")
+            raise Exception("Usuário já cadastrado, fala xande")
 
         userAuth = UserAuth.objects.create_user(username=self.data['email'],
                                                 first_name=self.data['fullName'],

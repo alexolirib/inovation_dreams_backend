@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -15,10 +15,18 @@ class ProjectViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def get_permissions(self):
+        if self.request.method == "GET":
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+
     def create(self, request, *args, **kwargs):
         if len(request.user.groups.filter(name='inventor')) == 0:
             return Response({'Error': 'usuário precisa ser inventor para criar projeto'}, status=status.HTTP_401_UNAUTHORIZED)
         data_serializer = CreateProjectSerializer(data=request.data)
         data_serializer.is_valid(raise_exception=True)
-        data_serializer.create(request.user.user)
-        return Response('ok', status=status.HTTP_201_CREATED)
+        project = data_serializer.create(request.user.user)
+        return Response(self.get_serializer(project).data, status=status.HTTP_201_CREATED)
