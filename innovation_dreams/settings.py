@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
-
 DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +41,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'channels',
 ]
 
 
@@ -50,7 +50,8 @@ LOCAL_APPS = [
     'endereco',
     'contato',
     'usuario',
-    'projeto'
+    'projeto',
+    'chat'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -97,7 +98,7 @@ DATABASES = {
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'post gres',
+    #     'NAME': 'postgres',
     #     'USER': 'postgres',
     #     'PASSWORD':  'Postgres2018!',
     #     'HOST': '127.0.0.1',
@@ -162,3 +163,7 @@ MEDIA_ROOT = 'imagens'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
+
+
+#channels
+ASGI_APPLICATION = "innovation_dreams.routing.application"
