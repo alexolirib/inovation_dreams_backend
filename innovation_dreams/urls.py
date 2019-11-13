@@ -21,5 +21,6 @@ urlAPI = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(urlAPI)),
-    path('chat/', include('chat.urls'))
+    # path('chat/', include('chat.urls')),
+    path('chat/', include('chat_2.api.urls', namespace='chat')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

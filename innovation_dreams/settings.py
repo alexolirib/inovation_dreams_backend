@@ -51,7 +51,8 @@ LOCAL_APPS = [
     'contato',
     'usuario',
     'projeto',
-    'chat'
+    'chat',
+    'chat_2'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -167,3 +168,12 @@ MEDIA_URL = '/media/'
 
 #channels
 ASGI_APPLICATION = "innovation_dreams.routing.application"
+# docker run -p 6379:6379 -d redis:2.8
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

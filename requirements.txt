@@ -7,3 +7,4 @@ pycpfcnpj
 psycopg2
 pillow
 channels
+channels_redis

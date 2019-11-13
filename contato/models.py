@@ -29,7 +29,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.type} - {self.value}"
-
-    # @staticmethod
-    # def criar_lista_contato(contatos):
-    #     return [Contact(tipo_contato=x['tipo'], valor_contato=x['valor']) for x in contatos]
