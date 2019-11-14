@@ -71,59 +71,56 @@ Header:
 
 Request:
 {
-	"id": "9d2720e9-cf51-4845-93a3-1799872080b8",
-	"email": "alexolirib2@gmail.com",
-	"fullName": "Gabriel Monteiro",
-	"photo": null,
-	"birthDate": null,
-	"genre": null,
-	"cpf": null,
-	"nationality": null,
-	"blocked": false,
-	"address": {
-	"id": 3,
-	"zipCode": null,
-	"street": null,
-	"number": null,
-	"state": null,
-	"neighbourhood": null,
-	"city": null,
-	"complement": null
-	},
-	"contacts": [
-		{
-			"type": "Celular",
-			"value": "9999944"
-		}
-	]
-}
+        "id": "2b2f3fc4-82bf-4848-b623-9bf952145fb5",
+        "email": "alexolirib@gmail.com",
+        "fullName": "Alexandre Oliveira Ribeiro",
+        "photo": null,
+        "birthDate": null,
+        "genre": null,
+        "cpf": null,
+        "nationality": null,
+        "blocked": false,
+        "facebook": null,
+        "instagram": null,
+        "linkedin": null,
+        "celular": "999999",
+        "address": {
+            "id": 1,
+            "zipCode": null,
+            "street": null,
+            "number": null,
+            "state": "ceara",
+            "country": "Brasil",
+            "neighbourhood": "aldeota",
+            "city": "fortaleza",
+            "complement": null
+        }
+    }
 
 Response:
 {
-	"id": "9d2720e9-cf51-4845-93a3-1799872080b8",
-	"email": "alexolirib2@gmail.com",
-	"fullName": "Gabriel Monteiro",
-	"photo": null,
-	"birthDate": null,
-	"genre": null,
-	"cpf": null,
-	"nationality": null,
-	"blocked": false,
-	"address": {
-	"id": 3,
-	"zipCode": null,
-	"street": null,
-	"number": null,
-	"state": null,
-	"neighbourhood": null,
-	"city": null,
-	"complement": null
-	},
-	"contacts": [
-		{
-			"id": 1
-			"type": "Celular",
-			"value": "9999944"
-		}
-	]
+    "id": "2b2f3fc4-82bf-4848-b623-9bf952145fb5",
+    "email": "alexolirib@gmail.com",
+    "fullName": "Alexandre Oliveira Ribeiro",
+    "photo": null,
+    "birthDate": null,
+    "genre": null,
+    "cpf": null,
+    "nationality": null,
+    "blocked": false,
+    "facebook": null,
+    "instagram": null,
+    "linkedin": null,
+    "celular": "999999",
+    "address": {
+        "id": 1,
+        "zipCode": null,
+        "street": null,
+        "number": null,
+        "state": "ceara",
+        "country": "Brasil",
+        "neighbourhood": "aldeota",
+        "city": "fortaleza",
+        "complement": null
+    }
 }

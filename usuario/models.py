@@ -2,7 +2,6 @@ from enum import Enum
 
 from django.db import models
 from django.contrib.auth.models import User as UserAuth
-from contato.models import Contact
 from endereco.models import Address
 import uuid
 
@@ -24,6 +23,10 @@ class User(models.Model):
     cpf = models.CharField(max_length=11, null=True, blank=True)
     blocked = models.BooleanField(default=False)
     address = models.OneToOneField(Address, null=True, blank=True, unique=True, on_delete=models.CASCADE)
+    facebook = models.CharField(max_length=500, null=True, blank=True, unique=True)
+    instagram = models.CharField(max_length=500, null=True, blank=True, unique=True)
+    linkedin = models.CharField(max_length=500, null=True, blank=True, unique=True)
+    celular = models.CharField(max_length=500, null=True, blank=True, unique=True)
     auth_user = models.OneToOneField(UserAuth, unique=True, on_delete=models.CASCADE)
 
     def save(self, **kwargs):
@@ -35,8 +38,3 @@ class User(models.Model):
         return f"{self.id} - {self.auth_user.email}"
 
 
-class UserContact(models.Model):
-    user = models.ForeignKey(User, related_name='contacts', on_delete=models.CASCADE)
-    contact = models.OneToOneField(Contact, null= True, blank=True, unique=True, on_delete=models.CASCADE)
-
-    objects = UserContactManage()

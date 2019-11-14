@@ -48,7 +48,6 @@ THIRD_PARTY_APPS = [
 CORS_ORIGIN_ALLOW_ALL = True
 LOCAL_APPS = [
     'endereco',
-    'contato',
     'usuario',
     'projeto'
 ]

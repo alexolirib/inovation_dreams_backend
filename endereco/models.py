@@ -5,6 +5,7 @@ class Address(models.Model):
     street = models.CharField(max_length=180, null=True, blank=True)
     number = models.IntegerField(null=True, blank=True)
     state = models.CharField(max_length=180, null=True, blank=True)
+    country = models.CharField(max_length=180, null=True, blank=True)
     neighbourhood = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=180, null=True, blank=True)
     complement = models.CharField(max_length=180, null=True, blank=True)
