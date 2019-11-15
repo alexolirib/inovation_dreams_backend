@@ -5,4 +5,8 @@ sqlparse==0.3.0
 django-cors-headers
 pycpfcnpj
 psycopg2
+gunicorn
 pillow
+python-decouple
+dj-database-url
+dj-static
