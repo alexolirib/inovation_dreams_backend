@@ -35,11 +35,13 @@ class ProjectImageSerializer(ModelSerializer):
 class ProjectSerializer(ModelSerializer):
     images = ProjectImageSerializer(many=True)
     categories = CategorySerializer(many=True)
+    user = SerializerMethodField()
 
     class Meta:
         model = Project
         fields = (
             'id',
+            'user',
             'title',
             'description',
             'summary',
@@ -50,6 +52,9 @@ class ProjectSerializer(ModelSerializer):
             'categories',
             'images'
         )
+
+    def get_user(self, obj):
+        return obj.userproject_set.last().user.id
 
     def increment_view(self):
         view  = self.data['views']

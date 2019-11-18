@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from projeto.api.serializers import ProjectSerializer, CreateProjectSerializer, CategorySerializer, \
     CreateCategorySerializer
 from projeto.models import Project, Category, UserProject
+from usuario.models import User
 
 
 class ProjectViewSet(ModelViewSet):
@@ -53,6 +54,16 @@ class ProjectViewSet(ModelViewSet):
         data_serializer.is_valid(raise_exception=True)
         project = data_serializer.update(project, request.data)
         return Response(self.get_serializer(project).data, status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=True)
+    def user(self, request, pk):
+        user = User.objects.get(id=pk)
+        user_projects = UserProject.objects.filter(user=user)
+        projects = []
+        for user_project in user_projects:
+            projects.append(user_project.project)
+        serializers = ProjectSerializer(projects, many=True)
+        return Response(serializers.data, status=status.HTTP_200_OK)
 
 
     @action(methods=['POST'], detail=True)
