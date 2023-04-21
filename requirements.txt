@@ -1,7 +1,7 @@
 Django==2.2.4
 djangorestframework
 pytz==2019.2
-sqlparse==0.3.0
+sqlparse==0.4.4
 django-cors-headers
 pycpfcnpj
 psycopg2
